@@ -8,12 +8,12 @@ const antispam = require("discord-anti-spam");
 //antispam code https://github.com/Michael-J-Scofield/discord-anti-spam/blob/master/anti_spam.js
 //antispam
 antispam(client, {
-interval: 1000, // Amount of time in ms users can send a maximum of the maxBuffer variable before getting banned.
-warningMessage: "Stop spamming! ", // Warning message send to the user indicating they are going to fast.
-banMessage: "has been banned for spamming, anyone else? ", // Ban message, always tags the banned user in front of it.
-maxDuplicatesWarning: 3,// Maximum amount of duplicate messages a user can send in a timespan before getting warned
-maxDuplicatesBan: 100, // Maximum amount of duplicate messages a user can send in a timespan before getting banned
-deleteMessagesAfterBanForPastDays: 3 // Delete the spammed messages after banning for the past x days.
+  interval: 1000, // Amount of time in ms users can send a maximum of the maxBuffer variable before getting banned.
+  warningMessage: "Stop spamming! ", // Warning message send to the user indicating they are going to fast.
+  banMessage: "has been banned for spamming, anyone else? ", // Ban message, always tags the banned user in front of it.
+  maxDuplicatesWarning: 3,// Maximum amount of duplicate messages a user can send in a timespan before getting warned
+  maxDuplicatesBan: 100, // Maximum amount of duplicate messages a user can send in a timespan before getting banned
+  deleteMessagesAfterBanForPastDays: 3 // Delete the spammed messages after banning for the past x days.
 
 
 });
@@ -23,107 +23,105 @@ deleteMessagesAfterBanForPastDays: 3 // Delete the spammed messages after bannin
 
 client.on('message', function(message,member) {
 
-var d = new Date ();
-var h = d.getHours();
-var m = d.getMinutes();
-var s = d.getSeconds();
-var tod = ""
+  var d = new Date ();
+  var h = d.getHours();
+  var m = d.getMinutes();
+  var s = d.getSeconds();
+  var tod = ""
 
 
 
 
-if (message.content === '::help') {
-message.channel.send('commands: bot.Dice, bot.8Ball, gn, Clear.Chat, =f, Server.Rules, bot.Time')
-console.log(message.author.username + ' used help command')
+  if (message.content === '::help') {
+  message.channel.send('commands: bot.Dice, bot.8Ball, gn, Clear.Chat, =f, Server.Rules, bot.Time')
+  console.log(message.author.username + ' used help command')
 
 
 
-}else if (message.content === 'bot.Dice'){
-var replies = ['1','2','3','4','5','6']
-var result = math.floor((math.random() * replies.length));
-var diceAnswer = replies[result]
-message.channel.send('It rolled a '+diceAnswer);
-console.log(message.author.username +' Used the dice') 
+  }else if (message.content === 'bot.Dice'){
+    var replies = ['1','2','3','4','5','6']
+    var result = math.floor((math.random() * replies.length));
+    var diceAnswer = replies[result]
+    message.channel.send('It rolled a '+diceAnswer);
+    console.log(message.author.username +' Used the dice') 
 
-}else if (message.content === 'bot.8ball' + ''){
-var replies = ['It is certain.','It is decidedly so.','Without a doubt.','Yes - definitely.','You may rely on it.','As I see it, yes.','Most likely.','Outlook good.','Yes.','Signs point to yes.','Reply hazy, try again','Ask again later.','Better not tell you now.','Cannot predict now.','Concentrate and ask again.','Dont count on it.','My reply is no.','My sources say no.','Outlook not so good.','Very doubtful.']
-var result = math.floor((math.random() * replies.length));
-var eightBallAnswer = replies[result]
-message.channel.send(eightBallAnswer); 
+  }else if (message.content === 'bot.8ball' + ''){
+    var replies = ['It is certain.','It is decidedly so.','Without a doubt.','Yes - definitely.','You may rely on it.','As I see it, yes.','Most likely.','Outlook good.','Yes.','Signs point to yes.','Reply hazy, try again','Ask again later.','Better not tell you now.','Cannot predict now.','Concentrate and ask again.','Dont count on it.','My reply is no.','My sources say no.','Outlook not so good.','Very doubtful.']
+    var result = math.floor((math.random() * replies.length));
+    var eightBallAnswer = replies[result]
+    message.channel.send(eightBallAnswer); 
 
-}else if (message.content === 'gn' ){
-message.channel.send('Good Night')
+  }else if (message.content === 'gn' ){
+    message.channel.send('Good Night')
 
-}else if(message.content === 'Clear.Chat'){
+  }else if(message.content === 'Clear.Chat'){
+    if (message.channel.type == 'text') {
+      
+    message.channel.fetchMessages().then(messages => {
+    message.channel.bulkDelete(messages);
+    messagesDeleted = messages.array().length; // number of messages deleted
 
+    // Logging the number of messages deleted on both the channel and console.
+    message.channel.send("Deletion of messages successful. Total messages deleted: "+messagesDeleted);
+    console.log('Deletion of messages successful. Total messages deleted: '+messagesDeleted)
+    }).catch(err => {
+    console.log('Error while doing Bulk Delete');
+    console.log(err);
+    })
+  }
 
-if (message.channel.type == 'text') {
-
-
-message.channel.fetchMessages().then(messages => {
-message.channel.bulkDelete(messages);
-messagesDeleted = messages.array().length; // number of messages deleted
-
-// Logging the number of messages deleted on both the channel and console.
-message.channel.send("Deletion of messages successful. Total messages deleted: "+messagesDeleted);
-console.log('Deletion of messages successful. Total messages deleted: '+messagesDeleted)
-}).catch(err => {
-console.log('Error while doing Bulk Delete');
-console.log(err);
-})
-}
-
-}else if(message.content === '=f'){
-message.reply('Payed respects')
-}else if(message.content === "Server.rules"){
-message.member.send("Rules: ")
+  }else if(message.content === '=f'){
+    message.reply('Payed respects')
+    
+  }else if(message.content === "Server.rules"){
+    message.member.send("Rules: ")
 
 
 
 
 
-}else if (message.content === "bot.Time"){
+  }else if (message.content === "bot.Time"){
 
-if(h > 12){
-tod = "pm"
-h = h - 12
+    if(h > 12){
+    tod = "pm"
+    h = h - 12
 
-}else{
-tod="am"
-}
+    }else{
+      tod="am"
+    }
 
-if(m < 10){
-message.channel.send('The current time is '+ h +':0'+ m +":"+s+ " " + tod)
+    if(m < 10){
+      message.channel.send('The current time is '+ h +':0'+ m +":"+s+ " " + tod)
 
-}else if (m > 10){
+    }else if (m > 10){
 
-message.channel.send('The current time is '+ h +':'+ m +":"+ s + " "+tod)
-}
+    message.channel.send('The current time is '+ h +':'+ m +":"+ s + " "+tod)
+  }
 
-}else if (message.content === "bot.Gif") {
+  }else if (message.content === "bot.Gif") {
 
-let gif = message.content.substring(message.content.indexOf(" ") + 1, message.content.length);
-let api = "http://api.giphy.com/v1/gifs/search?";
-let apiKey = "api_key=95Hx9tKmZ5G7L3me8VJ387du9kCh7qPw";
-let query = "&q=";
-let url = api+apiKey+query+gif;
-let data = ""
-let http = require('http');
-http.get(url, (resp) => {
-resp.on('data', (chunk) => {
-data += chunk;
-});
-resp.on('end', () => {
-let parsed = (JSON.parse(data));
-message.channel.send(parsed.data[(Math.floor(Math.random()*parsed.data.length))].url);
-});
-}).on("error", (err) => {
-console.log("Error: " + err.message);
-});
-}else if(message.isMentioned(client.user)){
+    let gif = message.content.substring(message.content.indexOf(" ") + 1, message.content.length);
+    let api = "http://api.giphy.com/v1/gifs/search?";
+    let apiKey = "api_key=95Hx9tKmZ5G7L3me8VJ387du9kCh7qPw";
+    let query = "&q=";
+    let url = api+apiKey+query+gif;
+    let data = ""
+    let http = require('http');
+    http.get(url, (resp) => {
+    resp.on('data', (chunk) => {
+    data += chunk;
+    });
+    resp.on('end', () => {
+    let parsed = (JSON.parse(data));
+    message.channel.send(parsed.data[(Math.floor(Math.random()*parsed.data.length))].url);
+    });
+    }).on("error", (err) => {
+    console.log("Error: " + err.message);
+    });
+ }else if(message.isMentioned(client.user)){
 
 
-var botReplies = ['Fuck Off','The fuck you say to me lil bitch!','Thats why ur dad left','if u dont get ur dust bunny headass tf outta here','go put some lotion on crusty ass basically white headass','Thats why your genitals are more butchered than a dead cow','no u','catch me in the alley with the butt sucking bums and then talk shit','Don’t feel bad, there are many people who have no talent!','As an outsider, what do you think of the human race?','I’d like to kick you in the teeth, but why should I improve your looks?','At least there’s one thing good about your body – it’s not as ugly as your face.','Brains aren’t everything. In fact, in your case they’re nothing.','Did your parents ever ask you to run away from home?','Keep talking – someday you’ll say something intelligent','Dont you love nature, you know beside what it did to you']
+var botReplies = ['']
 var result = math.floor((math.random() * botReplies.length));
 var botAnswer = botReplies[result]
 message.reply(botAnswer)
